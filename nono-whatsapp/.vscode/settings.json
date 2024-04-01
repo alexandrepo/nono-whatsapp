@@ -1,0 +1,10 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": [
+    "source.fixAll.format",
+    "source.fixAll.eslint"
+  ],
+  "terminal.integrated.scrollback": 2000,
+  "typescript.tsserver.maxTsServerMemory": 6072
+}

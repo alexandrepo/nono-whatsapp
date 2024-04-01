@@ -1,0 +1,45 @@
+import { WhatsappApi } from '../../Whatsapp.api';
+import { parse } from 'papaparse';
+import { WhatsAppResult } from './useGetWhatsappMessages.interface';
+
+export const whatsAppEndpoints = WhatsappApi.injectEndpoints({
+  endpoints: (builder) => ({
+    getWhatsAppData: builder.query<WhatsAppResult[], void>({
+      query: () => ({
+        responseHandler: 'text',
+        url: 'http://nonoconfeitaria.com.br/wp-content/uploads/2024/04/dataframe-final.csv',
+        method: 'GET',
+      }),
+      transformResponse: (response: string) => {
+        const result = (parse(response, { header: true }).data as unknown as WhatsAppResult[])
+          .filter((item) => item.ready === 'Yes')
+          .map((item) => ({
+            ...item,
+            listTags:
+              item.tags && item.tags.length > 0
+                ? item.tags.replaceAll("'", '').replace('[', '').replace(']', '').split(',')
+                : [],
+          }))
+          .reverse();
+        return result;
+      },
+    }),
+    getWhatsAppYoutubeTags: builder.query<{ index: string; value: string }[], void>({
+      query: () => ({
+        responseHandler: 'text',
+        url: 'http://nonoconfeitaria.com.br/wp-content/uploads/2024/04/dataframe-tags.csv',
+        method: 'GET',
+      }),
+      transformResponse: (response: string) => {
+        const result = parse(response.trim(), { header: true }).data as unknown as {
+          index: string;
+          value: string;
+        }[];
+
+        return result.slice(0, 15);
+      },
+    }),
+  }),
+});
+
+export const { useGetWhatsAppDataQuery, useGetWhatsAppYoutubeTagsQuery } = whatsAppEndpoints;
