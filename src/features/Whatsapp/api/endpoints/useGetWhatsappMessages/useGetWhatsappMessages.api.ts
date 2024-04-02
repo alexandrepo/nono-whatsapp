@@ -24,7 +24,7 @@ export const whatsAppEndpoints = WhatsappApi.injectEndpoints({
         return result;
       },
     }),
-    getWhatsAppYoutubeTags: builder.query<{ index: string; value: string }[], void>({
+    getWhatsAppYoutubeTags: builder.query<{ index: string; value: string, tag_alias:string }[], void>({
       query: () => ({
         responseHandler: 'text',
         url: 'https://alexandrepo.github.io/nono-whatsapp/dataframe-tags.csv',
@@ -34,6 +34,7 @@ export const whatsAppEndpoints = WhatsappApi.injectEndpoints({
         const result = parse(response.trim(), { header: true }).data as unknown as {
           index: string;
           value: string;
+          tag_alias: string;
         }[];
 
         return result.slice(0, 15);

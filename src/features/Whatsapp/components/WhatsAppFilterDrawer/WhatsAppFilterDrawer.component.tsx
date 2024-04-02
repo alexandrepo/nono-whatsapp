@@ -26,7 +26,7 @@ export const WhatsAppFilterDrawer = () => {
   const dispatch = useDispatch()
   const filters:string[] = useSelector(whatsAppFilterSelector) 
 
-  const handleToggle = (value: string) => useCallback(() => {
+  const handleToggle = (value: string) => () => {
     const currentIndex = filters.indexOf(value); 
     const newChecked = [...filters];
 
@@ -38,7 +38,7 @@ export const WhatsAppFilterDrawer = () => {
     dispatch(
       changeFilter(newChecked)
     ) 
-  },[filters,dispatch]); 
+  }; 
   return (
     <>
       <Box

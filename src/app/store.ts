@@ -21,7 +21,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
-  middleware: (getDefaultMiddleware) =>
+  middleware: (getDefaultMiddleware: any) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(WhatsappApi.middleware),
 });
 

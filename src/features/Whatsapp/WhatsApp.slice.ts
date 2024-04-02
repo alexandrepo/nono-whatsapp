@@ -11,7 +11,7 @@ export const whatsAppSlice = createSlice({
   name: 'whatsapp',
   initialState,
   reducers: {
-    changeFilter(state, action: PayloadAction<any>) { 
+    changeFilter(state:any, action: PayloadAction<any>) { 
       state.filter = action.payload
     },
   },
