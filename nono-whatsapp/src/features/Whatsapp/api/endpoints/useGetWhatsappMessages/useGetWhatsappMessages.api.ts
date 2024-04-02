@@ -7,7 +7,7 @@ export const whatsAppEndpoints = WhatsappApi.injectEndpoints({
     getWhatsAppData: builder.query<WhatsAppResult[], void>({
       query: () => ({
         responseHandler: 'text',
-        url: 'http://nonoconfeitaria.com.br/wp-content/uploads/2024/04/dataframe-final.csv',
+        url: 'https://alexandrepo.github.io/nono-whatsapp/dataframe-final.csv',
         method: 'GET',
       }),
       transformResponse: (response: string) => {
@@ -27,7 +27,7 @@ export const whatsAppEndpoints = WhatsappApi.injectEndpoints({
     getWhatsAppYoutubeTags: builder.query<{ index: string; value: string }[], void>({
       query: () => ({
         responseHandler: 'text',
-        url: 'http://nonoconfeitaria.com.br/wp-content/uploads/2024/04/dataframe-tags.csv',
+        url: 'https://alexandrepo.github.io/nono-whatsapp/dataframe-tags.csv',
         method: 'GET',
       }),
       transformResponse: (response: string) => {

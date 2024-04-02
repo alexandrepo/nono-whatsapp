@@ -20,4 +20,5 @@ export interface WhatsAppResult {
   title: string;
   youtube_id: string;
   youtube_url: string;
+  tag_alias:string;
 }

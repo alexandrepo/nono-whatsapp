@@ -15,13 +15,30 @@ import {
   FormGroup,
   FormControlLabel,
 } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useGetWhatsAppYoutubeTagsQuery } from '../../api';
+import { changeFilter, whatsAppFilterSelector } from '../../WhatsApp.slice';
+import { useDispatch, useSelector } from '@/app/store.hooks';
 
 export const WhatsAppFilterDrawer = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const { data } = useGetWhatsAppYoutubeTagsQuery();
-  console.log(data);
+  const [open, setOpen] = useState<boolean>(false); 
+  const { data } = useGetWhatsAppYoutubeTagsQuery(); 
+  const dispatch = useDispatch()
+  const filters:string[] = useSelector(whatsAppFilterSelector) 
+
+  const handleToggle = (value: string) => useCallback(() => {
+    const currentIndex = filters.indexOf(value); 
+    const newChecked = [...filters];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+    dispatch(
+      changeFilter(newChecked)
+    ) 
+  },[filters,dispatch]); 
   return (
     <>
       <Box
@@ -35,7 +52,6 @@ export const WhatsAppFilterDrawer = () => {
           variant="contained"
           size="large"
           sx={{ borderRadius: '50px' }}
-          color="secondary"
           startIcon={<ListIcon />}
           onClick={() => {
             setOpen(true);
@@ -72,22 +88,30 @@ export const WhatsAppFilterDrawer = () => {
             <Close />
           </IconButton>
         </Box>
+        {/* <Box px={2}>
+          <Typography variant="h6">Categorias</Typography>
+        </Box> */}
         <Box px={2}>
           <Typography variant="h6">Tags</Typography>
         </Box>
-        <List sx={{ width: '100%' }}>
-          <Grid container>
-            {data?.map((item) => (
-              <Grid item  key={item.index} xs={6}>
-                <ListItem disablePadding>
+          <List sx={{ width: '100%' }}>
+            {data?.map((item, index) => (
+                <ListItem key={item.index} disablePadding onClick={handleToggle(item.index)}>
                   <ListItemButton role={undefined} dense>
-                    <FormControlLabel control={<Checkbox  />} label={item.index}  />
+                        <Checkbox 
+                          disableRipple
+                          checked={filters.indexOf(item.index) !== -1}  
+                          tabIndex={-1}
+                          inputProps={{ 'aria-labelledby': index+item.index }}
+                      /> 
+                      <ListItemText tabIndex={-1}  id={index+item.index} primary={item.index + ' ('+item.tag_alias+')'} />
                   </ListItemButton>
                 </ListItem>
-              </Grid>
             ))}
-          </Grid>
-        </List>
+          </List>
+        {/* <Box px={2}>
+          <Typography variant="h6">Idiomas</Typography>
+        </Box> */}
       </Drawer>
     </>
   );
