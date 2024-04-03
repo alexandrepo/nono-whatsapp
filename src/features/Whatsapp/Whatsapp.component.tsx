@@ -1,10 +1,9 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { useGetWhatsAppDataQuery } from './api/endpoints';
 import { useCallback, useState } from 'react';
 import { WhatsAppResult } from './api/endpoints';
-import { WhatsAppDetailsDrawer, WhatsAppFilterDrawer } from './components';
+import { WhatsAppDetailsDrawer, WhatsAppFilterDrawer, WhatsAppListLoader } from './components';
 import WhatsAppList from './components/WhatsAppList/WhatsAppList.component';
-import { List } from '@mui/icons-material';
 
 export const Whatsapp = () => {
   const { data, isLoading, isFetching } = useGetWhatsAppDataQuery();
@@ -17,7 +16,7 @@ export const Whatsapp = () => {
     },
     [setOpen, setSelected]
   );
-  if (isLoading || isFetching) return <Box>Carregando dados...</Box>;
+  if (isLoading || isFetching) return <WhatsAppListLoader />;
   return (
     <>
       <WhatsAppDetailsDrawer selected={selected} setOpen={setOpen} open={open} />
